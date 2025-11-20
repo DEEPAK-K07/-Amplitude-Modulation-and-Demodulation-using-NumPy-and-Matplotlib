@@ -101,6 +101,10 @@ plt.show()
 <img width="1189" height="990" alt="download (2)" src="https://github.com/user-attachments/assets/da9ec31b-e6f5-409e-9e83-3171f3a5f973" />
 
 
+__Calculation:__
+
+![WhatsApp Image 2025-11-20 at 21 14 08_a8370ecd](https://github.com/user-attachments/assets/8fd2089c-750b-4c90-83a6-ab86160eff45)
+
 
  __Result__:
 
