@@ -26,35 +26,80 @@ __Algorithm__:
 
 __Program__:
 
-```
-import numpy as np 
-import matplotlib.pyplot as plt 
-Am = 14.3
-Fm = 550
-Ac = 28.6 
-Fc = 5500 
-Fs = 295000 
-t = np.arange(0, 2/Fm, 1/Fs) 
-em = Am * np.sin(2 * np.pi * Fm * t) 
-plt.subplot(3, 1, 1) 
-plt.plot(t, em) 
-plt.grid() 
-ec = Ac * np.sin(2 * np.pi * Fc * t) 
-plt.subplot(3, 1, 2) 
-plt.plot(t, ec) 
-plt.grid() 
-eam = (Ac + (Am * np.sin(2 * np.pi * Fm * t))) * np.sin(2 * np.pi * Fc * t) 
-plt.subplot(3, 1, 3) 
-plt.plot(t, eam) 
-plt.grid() 
-plt.tight_layout() 
+```c
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.signal import hilbert
+
+# Parameters
+A_c = 28.6  # Carrier amplitude
+f_c = 5500  # Carrier frequency in Hz
+f_m = 550    # Message frequency in Hz
+A_m = 14.3  # Message amplitude
+sampling_frequency = 1000  # Sampling frequency in Hz
+duration = 1  # Duration of the signal in seconds
+
+# Time axis
+t = np.linspace(0, duration, int(sampling_frequency * duration))
+
+# Message Signal
+m_t = A_m * np.cos(2 * np.pi * f_m * t)
+
+# Carrier Signal
+c_t = A_c * np.cos(2 * np.pi * f_c * t)
+
+# Amplitude Modulation (AM) Signal
+s_t = (1 + m_t) * c_t
+
+# AM Demodulation using Hilbert Transform
+analytic_signal = hilbert(s_t)
+envelope = np.abs(analytic_signal)
+demodulated_message = (envelope - A_c) / A_m
+
+# Plotting the Results
+plt.figure(figsize=(12, 10))
+
+# Original Message Signal
+plt.subplot(4, 1, 1)
+plt.plot(t, m_t)
+plt.title('Original Message Signal')
+plt.xlabel('Time [s]')
+plt.ylabel('Amplitude')
+plt.grid(True)
+
+# Carrier Signal
+plt.subplot(4, 1, 2)
+plt.plot(t, c_t)
+plt.title('Carrier Signal')
+plt.xlabel('Time [s]')
+plt.ylabel('Amplitude')
+plt.grid(True)
+
+# Amplitude Modulated (AM) Signal
+plt.subplot(4, 1, 3)
+plt.plot(t, s_t)
+plt.title('Amplitude Modulated (AM) Signal')
+plt.xlabel('Time [s]')
+plt.ylabel('Amplitude')
+plt.grid(True)
+
+# Demodulated Signal
+plt.subplot(4, 1, 4)
+plt.plot(t, demodulated_message)
+plt.title('Demodulated Signal')
+plt.xlabel('Time [s]')
+plt.ylabel('Amplitude')
+plt.grid(True)
+
+plt.tight_layout()
 plt.show()
 
 ```
 
  __Output__:
 
-<img width="630" height="469" alt="download" src="https://github.com/user-attachments/assets/c7ae9698-f33a-4c67-9ced-7a1472e07ed6" />
+<img width="1189" height="990" alt="download (2)" src="https://github.com/user-attachments/assets/da9ec31b-e6f5-409e-9e83-3171f3a5f973" />
+
 
 
  __Result__:
